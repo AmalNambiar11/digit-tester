@@ -1,4 +1,4 @@
-import importlib.util
+import os, importlib.util
 package_name = 'tkinter'
 is_tkinter = True
 if importlib.util.find_spec(package_name) is None:
@@ -13,8 +13,8 @@ train_Y = testbench.train_Y
 TRAINING_SET_SIZE = testbench.TRAINING_SET_SIZE
 TESTING_SET_SIZE = testbench.TESTING_SET_SIZE
 
-bot2 = testbench.ClassifierBot(2.0, True)
-bot2.load_file(2)
+bot = testbench.ClassifierBot(2.0, True)
+bot.load_file("model2")
 
 class App(tk.Tk):
     def __init__(self, *args, **kwargs): 
@@ -109,14 +109,39 @@ class ModelsPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
+def new_model_page():
+    pass
+
+def load_model_page():
+    dir_list = os.listdir("models")
+    for i in dir_list:
+        print(i[0:-4:1], sep=" ")
+    while True:
+        choice = input("Choose a model> ")
+        if choice+".pkl" in dir_list:
+            bot.load_file(choice)
+            break
+        else:
+            print("INVALID MODEL")
+    print("Bot loaded.")
+    print("1) Train 2) Test")   
+
 def bots_page():
-    
-    pass 
+    print("1) Load model 2) New Model")
+    while True:
+        choice = input("> ")
+        if choice.isdigit(): 
+            break
+    choice = int(choice)
+    if choice == 1:
+        load_model_page()
+    elif choice == 2:
+        new_model_page()
 
 def simple_test_page():
     print("The MNIST testing set contains 10000 images to try your bot on.")
     print("Using model1 ..")
-    print("Type a number from 1 to 10000 to pick an image or type an invalid input to pick randomly -")
+    print("Type a number from 1 to", TESTING_SET_SIZE, "to pick an image or type an invalid input to pick randomly -")
     choice = input("> ")
     if choice.isdigit():
         choice = int(choice)
@@ -137,15 +162,6 @@ def start_gui():
     return
     root = Tk()
     root.geometry("800x800")
-    # greeting = tk.Label(text="Hello, Tkinter")
-    # label = tk.Label(
-    #     text="Hello, Tkinter",
-    #     fg="white",
-    #     bg="black",
-    #     width=10,
-    #     height=10
-    # )
-    # label.pack()
     button1 = Button(text="Test Single Image")
     button2 = Button(text="Test Batch")
     button1.pack()
@@ -154,7 +170,7 @@ def start_gui():
     root.mainloop()
 
 def start_shell():
-    print("MENU\n1) Test Single Image\n2) Bots")
+    print("MENU\n1) Test Single Image\n2) Bots\n3) Quit")
     choice = ""
     while True:
         choice = input("> ")
@@ -188,4 +204,5 @@ def start():
         print("Tkinter is NOT installed on your system. Continuing with shell ..\n")
         start_shell()
 
-start()
+load_model_page()
+#start()

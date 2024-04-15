@@ -43,8 +43,8 @@ class ClassifierBot:
         self.n1.update(x)
         self.n2.update(x)
     
-    def load_file(self, model_num=1):
-        filename = "models/model"+str(model_num)+".pkl"
+    def load_file(self, model):
+        filename = "models/"+model+".pkl"
         with open(filename, 'rb') as f:
             self.n0.weight = pickle.load(f)
             self.n1.weight = pickle.load(f)
@@ -54,8 +54,8 @@ class ClassifierBot:
             self.n2.bias = pickle.load(f)
             f.close() 
 
-    def save_file(self, model_num=1):
-        filename = "models/model"+str(model_num)+".pkl"
+    def save_file(self, model):
+        filename = "models/"+model+".pkl"
         with open(filename, 'wb') as f:  
             pickle.dump(self.n0.weight, f)
             pickle.dump(self.n1.weight, f)
