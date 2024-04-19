@@ -1,7 +1,7 @@
 from keras.datasets import mnist
 from random import randrange
 import numpy as np 
-from bot import ClassifierBot
+from bot2 import ClassifierBot
 from graph_tool import GraphTool
 
 print("Loading MNIST data ..")
@@ -59,7 +59,7 @@ def test_batch(bot, n, is_detailed=False, graph=None, is_training=True):
         graph.add_point(totalCorrect, n) 
     print("Total correct tests: ", totalCorrect, " out of ", n)
 
-#bot1 = ClassifierBot(2.0, True)
+bot1 = ClassifierBot(784, 16, 16)#2.0, True)
 
 def start():
     trials = 150
@@ -68,7 +68,7 @@ def start():
     for i in range(trials):
         print("Trial ", i+1, "- ", end="")
         test_batch(bot1, 1500, False, g)
-        bot.modify_bot(rate)
+        bot1.modify_bot(rate)
         if i>400:
             rate = 0.5
     g.draw_graph()
@@ -86,15 +86,7 @@ def start2():
     #bot1.save_file(2)
     g.draw_graph()
 
-# 0.7, 0.7 gave 80% accuracy after 800 trials
-# 1.0, 1.0 gave a bit more than 80% accuracy after 800 trials
-#start2()
-
-# x = 500
-# pyplot.subplot(330 + 1 + x)
-# pyplot.imshow(train_X[x], cmap=pyplot.get_cmap('gray'))
-# pyplot.show()
-# start2()
+start2()
 
 
     

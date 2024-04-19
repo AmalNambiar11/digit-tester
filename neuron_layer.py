@@ -10,7 +10,7 @@ class NeuronLayer:
         self.actvn = np.zeros(rows)
         self.output_ = np.zeros(rows)
 
-        self.memory = 0.0
+        self.memory = 0
         self.w_change = np.zeros([rows, cols])
         self.b_change = np.zeros(rows)
 
@@ -36,26 +36,26 @@ class NeuronLayer:
         self.output_d = self.output_*(1-self.output_)
     
     def back(self, cost):
-        self.memory += 1.0
+        self.memory += 1
         x = np.multiply(cost, self.output_d)
         self.b_change -= x
         self.w_change -= np.tensordot(x, self.input_, axes=0)
         return np.matmul(np.transpose(self.weight), x)
 
     def reset(self):
-        self.memory = 0.0 
+        self.memory = 0 
         self.w_change.fill(0)
         self.b_change.fill(0)
 
     def update(self, x=0.1):
-        if self.memory == 0.0:
+        if self.memory == 0:
             return
-        self.weight += x*(1.0/self.memory)*self.w_change
-        self.bias += x*(1.0/self.memory)*self.b_change
+        self.weight += x*self.w_change/self.memory
+        self.bias += x*self.b_change/self.memory
         self.reset()
 
     def sigmoid(self, x):
-        return 1.0/(1.0+ np.exp(-x))
+        return 1/(1+ np.exp(-x))
     
-    def sigmoid_d(self, x):
-        return (np.exp(-x))/((np.exp(-x)+1)**2)
+#    def sigmoid_d(self, x):
+#        return (np.exp(-x))/((np.exp(-x)+1)**2)
