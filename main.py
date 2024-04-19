@@ -13,8 +13,8 @@ train_Y = testbench.train_Y
 TRAINING_SET_SIZE = testbench.TRAINING_SET_SIZE
 TESTING_SET_SIZE = testbench.TESTING_SET_SIZE
 
-bot = testbench.ClassifierBot(2.0, True)
-bot.load_file("model2")
+bot = testbench.ClassifierBot()
+bot.load_file("model3")
 
 class App(tk.Tk):
     def __init__(self, *args, **kwargs): 
@@ -66,7 +66,7 @@ class SimpleTestPage(tk.Frame):
         top_label = tk.Label(self, textvariable=self.top_label_text)
 
         image_num_entry = tk.Entry(self, textvariable=self.image_num)
-        image_num_entry.bind('<Return>', lambda event: self.load(C, image_num.get()-1))
+        image_num_entry.bind('<Return>', lambda event: self.load(C, self.image_num.get()-1))
 
         C = tk.Canvas(self, height=300, width=400, bg="white")
         C.create_rectangle(10, 10, 100, 100, fill="yellow")
@@ -103,7 +103,7 @@ class SimpleTestPage(tk.Frame):
         self.top_label_text.set("Image: " + str(image_num+1) + "\t\tLabel: " + str(label))
 
     def test(self, image_num):
-        fmain.test_single_image(bot2, image_num, False)
+        testbench.test_single_image(bot, image_num, False)
 
 class ModelsPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -149,7 +149,7 @@ def simple_test_page():
             choice = randint(1, TESTING_SET_SIZE)
     else:
         choice = randint(1, TESTING_SET_SIZE)
-    testbench.test_single_image(bot2, choice-1, False)
+    testbench.test_single_image(bot, choice-1, False)
 
 def start3():
     root = App()
@@ -204,5 +204,5 @@ def start():
         print("Tkinter is NOT installed on your system. Continuing with shell ..\n")
         start_shell()
 
-load_model_page()
-#start()
+#load_model_page()
+start()

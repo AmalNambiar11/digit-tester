@@ -59,7 +59,7 @@ def test_batch(bot, n, is_detailed=False, graph=None, is_training=True):
         graph.add_point(totalCorrect, n) 
     print("Total correct tests: ", totalCorrect, " out of ", n)
 
-bot1 = ClassifierBot(784, 16, 16)#2.0, True)
+bot1 = ClassifierBot(784, 16, 16)
 
 def start():
     trials = 150
@@ -85,8 +85,6 @@ def start2():
             rate = 1.0
     #bot1.save_file(2)
     g.draw_graph()
-
-start2()
 
 
     

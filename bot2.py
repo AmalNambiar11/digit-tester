@@ -1,11 +1,14 @@
 import numpy as np
 import neuron_layer as nl
+import pickle
 
 class ClassifierBot:
     def __init__(self, *args):
         self.dims = []
         self.layers = []
         n = len(args)
+        self.layer_count = n
+
         if (n==0):
             return
         for i in range(n):
@@ -23,7 +26,7 @@ class ClassifierBot:
         data = data.reshape(784).astype(np.float32)
         data = data / 255.0
 
-        n = len(self.dims)-1
+        n = self.layer_count
 
         self.layers[0].send(data)
         out = []
@@ -49,7 +52,7 @@ class ClassifierBot:
         return np.argmax(data)
     
     def modify_bot(self, x=0.1):
-        n = len(self.dims)-1
+        n = self.layer_count
         for i in range(n):
             self.layers[i].update(x)
     
@@ -58,6 +61,7 @@ class ClassifierBot:
         with open(filename, 'rb') as f:
             self.dims = pickle.load(f)
             n = len(self.dims) - 1
+            self.layer_count = n
             for i in range(n):
                 new_layer = pickle.load(f)
                 self.layers.append(new_layer)
@@ -68,7 +72,7 @@ class ClassifierBot:
         filename = "models/"+model+".pkl"
         with open(filename, 'wb') as f:
             pickle.dump(self.dims, f)
-            n = len(self.dims) - 1
+            n = self.layer_count
             for i in range(n):
                 pickle.dump(self.layers[i], f)
             f.close()

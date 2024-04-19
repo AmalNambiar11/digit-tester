@@ -23,8 +23,6 @@ class NeuronLayer:
             W = self.extentW
         if (B == 0.0):
             B = self.extentB
-        #print(W)
-        #print(B)
         self.weight = W*(np.random.rand(self.rows, self.cols) - 0.5)
         self.bias = B*(np.random.rand(self.rows) - 0.5)
 
@@ -32,7 +30,6 @@ class NeuronLayer:
         self.input_ = data
         self.actvn = np.matmul(self.weight, data) + self.bias
         self.output_ = self.sigmoid(self.actvn)
-        #self.output_d = self.sigmoid_d(self.actvn)
         self.output_d = self.output_*(1-self.output_)
     
     def back(self, cost):
@@ -56,6 +53,3 @@ class NeuronLayer:
 
     def sigmoid(self, x):
         return 1/(1+ np.exp(-x))
-    
-#    def sigmoid_d(self, x):
-#        return (np.exp(-x))/((np.exp(-x)+1)**2)
